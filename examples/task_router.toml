@@ -1,0 +1,9 @@
+home = '../../..'
+cwd = '~/GDrive/Documents/ptaskrunner_workspace'
+untrusted_config_path = 'untrusted.toml'
+
+[ollama.task]
+cmd = ['/bin/sh', '-c', 'exec python ~/.local/share/ptaskrunner/ollama.py']
+
+[scratch.task]
+cmd = ['/bin/sh', '-c', 'exec sh ~/.local/share/ptaskrunner/scratch.sh']

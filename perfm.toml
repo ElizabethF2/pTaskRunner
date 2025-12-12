@@ -1,0 +1,6 @@
+# code 0 = normal, non-zero = performance
+
+[actions.RustDesk]
+check_cmd = 'systemctl is-active --quiet rustdesk'
+enter_cmd = 'sudo systemctl stop rustdesk'
+exit_cmd = 'sudo systemctl start rustdesk'

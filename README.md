@@ -1,0 +1,3 @@
+# pTaskRunner
+
+pTaskRunner is a utility which interfaces with systemd and which is designed to reliably automate stopping services, running a task and resuming those services after the task has completed. pTaskRunner is able to reliably restart services even if a task crashes or hangs. pTaskRunner is designed to make it easier to optimize performance by temporarily freeing up resources (CPU, memory, etc) while running a demanding task. pTaskRunner itself only runs before and after the user-specified task in question, not during. It can be configured such that the only processes running on the kernel are the systemd daemon and the given task, essentially enabling temporarily using conventional kernels as psuedo-unikernals.
