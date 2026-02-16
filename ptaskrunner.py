@@ -94,10 +94,20 @@ def get_snooze_duration(ctx, name):
     return value
   raise ValueError(f'Invalid units: {repr(units)}')
 
-def systemd_run(cmd, name = None, start_time = None, properties = None):
+def systemd_run(cmd,
+                name = None,
+                start_time = None,
+                properties = None,
+                user = None):
+  if user is None:
+    user_args = ()
+  else:
+    pw = li.pwd.getpwnam(user)
+    user_args = (f'--uid={pw.pw_uid}', f'--gid={pw.pw_gid}')
   return run(
     ('systemd-run',) +
     (('--unit', name) if name else ()) +
+    user_args +
     ((f'--on-calendar=@{round(start_time)}',
       f'--timer-property=AccuracySec={round(WAIT_POLLING_DELAY)}s')
       if start_time else ()) +
@@ -211,7 +221,8 @@ def phase2(ctx, names):
     systemd_run(
       get_profile_setting(ctx, name, 'task'),
       name = f'ptaskrunner-{name}-task',
-      properties = props.get(name)
+      properties = props.get(name),
+      user = get_profile_setting(ctx, name, 'user'),
     )
 
 def wake(ctx, names):
