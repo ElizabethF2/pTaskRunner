@@ -249,10 +249,13 @@ def wait(names):
       else:
         remaining.remove(name)
 
-def reset(names):
+def reset(ctx, names):
   for name in (names or ['*']):
+    running = False if name == '*' else is_profile_running(name)
     for i in ('stop', 'reset-failed'):
       run(('systemctl', i, f'ptaskrunner-{name}-*'))
+    if running:
+      wake(ctx, name)
 
 def main():
   try:
@@ -296,7 +299,7 @@ def main():
     phase1(ctx, to_run)
     wait(names)
   elif hasattr(ctx, 'reset'):
-    reset(names)
+    reset(ctx, names)
   else:
     phase1(ctx, names)
 
